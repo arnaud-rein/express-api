@@ -1,6 +1,7 @@
 const express = require('express');
 const mongoose = require('mongoose');
 const Iot = require('./models/Iot');
+const { iotMessageSchema } = require('./validator/validatorIot');
 
 const app = express();
 const PORT = 3000;
@@ -22,10 +23,16 @@ mongoose.connect('mongodb://localhost:27017/mon_iot_db', {
 app.post('/tcp-data', async (req, res) => {
     const { message } = req.body;
 
-    console.log('Message reçu de TCP via HTTP :', message);
+    const parseResult = iotMessageSchema.safeParse(message);
 
-    // Option 1 : parser le message (si format connu)
-    // Exemple : "Capteur jardin;48.8566;2.3522"
+    if (!parseResult.success) {
+        return res.status(400).json({
+            error: "Message invalide",
+            detail: parseResult.error.issues
+        });
+    }
+
+    // Si le message est valide, on le traite
     const [name, latStr, lonStr] = message.split(';');
     const latitude = parseFloat(latStr);
     const longitude = parseFloat(lonStr);
