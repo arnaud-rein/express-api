@@ -1,0 +1,30 @@
+# Node modules (dossier contenant toutes les dépendances installées avec npm)
+node_modules/
+
+# Fichiers de log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
+# Fichiers environnementaux
+.env
+
+# Dossiers temporaires
+tmp/
+temp/
+*.tmp
+
+# Systèmes d’exploitation
+.DS_Store          # macOS
+Thumbs.db          # Windows
+
+# Éditeurs
+.vscode/
+.idea/
+
+# Tests de couverture
+coverage/
+
+# Build éventuel (si tu transpiles avec Babel ou TypeScript)
+dist/
+build/
